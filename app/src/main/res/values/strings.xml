@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">truecaller-assingment</string>
+    <string name="truecaller10thcharacterrequest">Truecaller10thCharacterRequest</string>
+    <string name="truecallerevery10thcharacterrequest"> TruecallerEvery10thCharacterRequest</string>
 </resources>

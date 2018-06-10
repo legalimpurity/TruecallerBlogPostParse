@@ -22,7 +22,7 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainActivityModel>(), Spl
         super.onCreate(savedInstanceState)
         mMainActivityModel?.setNavigator(this)
         mActivityMainBinding = getViewDataBinding()
-        mMainActivityModel?.getWebPage(2018,1,22,"life-as-an-android-engineer")
+        mMainActivityModel?.getWebPage()
     }
 
     // Functions to be implemented by every Activity
