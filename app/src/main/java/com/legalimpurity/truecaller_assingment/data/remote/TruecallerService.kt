@@ -6,9 +6,6 @@ import retrofit2.http.Path
 
 interface TruecallerService {
 
-    // https://blog.truecaller.com/2018/01/22/life-as-an-android-engineer/
-//    @get:GET("{year}/{month}/{date}/{title}")
-//    fun getResponse(@Path(value = "year", encoded = true) String year): Single<String>
-    @get:GET("2018/01/22/life-as-an-android-engineer/")
-    val getBlogPostResponse: Single<String>
+    @GET("{year}/{month}/{date}/{title}")
+    fun getBlogPostResponse(@Path(value = "year", encoded = true)year: Int, @Path(value = "month", encoded = true)month: Int, @Path(value = "date", encoded = true) date: Int, @Path(value = "title", encoded = true) title: String): Single<String>
 }

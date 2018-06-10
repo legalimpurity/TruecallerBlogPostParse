@@ -9,11 +9,9 @@ import java.lang.ref.WeakReference
 
 
 abstract class BaseViewModel<N>(val theDataManager: DataManager,
-                                val theSchedulerProvider: SchedulerProvider) : ViewModel() {
+                                val theSchedulerProvider: SchedulerProvider, val theCompositeDisposable: CompositeDisposable) : ViewModel() {
 
     val isLoading = ObservableBoolean(false)
-
-    private val theCompositeDisposable: CompositeDisposable = CompositeDisposable()
 
     var mNavigator: WeakReference<N> ? = null
 
