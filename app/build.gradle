@@ -17,9 +17,18 @@ android {
     }
     buildTypes {
         release {
-            minifyEnabled false
+            buildConfigField("String", "BASE_URL","\"https://blog.truecaller.com\"")
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+        debug {
+            minifyEnabled false
+            buildConfigField("String", "BASE_URL", "\"https://blog.truecaller.com\"")
+            debuggable true
+        }
+    }
+    dataBinding {
+        enabled = true
     }
 }
 
@@ -51,13 +60,11 @@ dependencies {
     implementation "io.reactivex.rxjava2:rxjava:$project.rxJavaVersion"
     implementation "io.reactivex.rxjava2:rxandroid:$project.rxAndroidVersion"
 
-    // Parser
-    implementation "com.google.code.gson:gson:$rootProject.gson"
-
     // retrofit
-    implementation "com.squareup.retrofit2:converter-gson:$rootProject.retrofit"
+    compile "com.squareup.retrofit2:retrofit:$rootProject.retrofit"
+//    implementation "com.squareup.retrofit2:converter-gson:$rootProject.retrofit"
     implementation "com.jakewharton.retrofit:retrofit2-rxjava2-adapter:$project.rxJavaAdapter"
-
+    implementation "com.squareup.retrofit2:converter-scalars:$rootProject.retrofit"
     // OKHttp
     implementation "com.squareup.okhttp3:okhttp:$rootProject.okhttp"
     implementation "com.squareup.okhttp3:logging-interceptor:$rootProject.okhttp"

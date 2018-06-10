@@ -50,9 +50,6 @@ ext {
     rxAndroidVersion = '2.0.2'
     rxJavaAdapterVersion = "1.0.0"
 
-    // Gson Ver
-    gson = '2.8.0'
-
     // retrofit
     retrofit = '2.3.0'
     rxJavaAdapter = "1.0.0"
