@@ -15,16 +15,11 @@ class MainActivityModel(dataManager: DataManager, schedulerProvider: SchedulerPr
     var t10thCharacterRequestAnswer = ObservableField<String>()
     var tevery10thCharacterRequestAnswer = ObservableField<String>()
 
-    var listOfChars = ReplaySubject.create<Char>()
+    fun getWebPage(year: Int, month: Int, date: Int, title:String) {
 
+        val listOfChars = ReplaySubject.create<Char>()
 
-    var year: Int = 2018
-    var month: Int = 1
-    var date: Int = 22
-    var title:String = "life-as-an-android-engineer"
-
-    init {
-         getDataManager()
+        getDataManager()
                 .getBlogPostResponseAsCharArray(year, month, date, title)
                 .map {
                     it.toList()
@@ -33,16 +28,13 @@ class MainActivityModel(dataManager: DataManager, schedulerProvider: SchedulerPr
                 .flatMap {
                     Observable.fromIterable<Char>(it)
                 }
-                 .subscribeOn(getSchedulerProvider().io())
-                 .subscribe(listOfChars)
+                .subscribeOn(getSchedulerProvider().io())
+                .subscribe(listOfChars)
 
-
-    }
-
-    fun getWebPage() {
 
         val listOf10thChars = listOfChars
                 .skip(9)
+//                .window(10,1)
                 .buffer(1,10)
 
         getCompositeDisposable().add(listOf10thChars
@@ -62,7 +54,7 @@ class MainActivityModel(dataManager: DataManager, schedulerProvider: SchedulerPr
                 .map {
                     var sb = StringBuilder()
                     it.forEach{
-                        sb.append(it[0])
+                        sb.append(it[0].toString())
                     }
                     sb.toString()
                 }
@@ -73,6 +65,18 @@ class MainActivityModel(dataManager: DataManager, schedulerProvider: SchedulerPr
                 },{
                     tevery10thCharacterRequestAnswer.set("Some error occured!")
                 }))
+
+//        getCompositeDisposable().add(listOfChars
+//                .reduce({ input ,output ->
+//
+//                })
+//                .subscribeOn(getSchedulerProvider().io())
+//                .observeOn(getSchedulerProvider().ui())
+//                .subscribe({
+//                    tevery10thCharacterRequestAnswer.set(it)
+//                },{
+//                    tevery10thCharacterRequestAnswer.set("Some error occured!")
+//                }))
 
 
     }
