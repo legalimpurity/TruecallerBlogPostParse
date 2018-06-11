@@ -65,6 +65,7 @@ dependencies {
 //    implementation "com.squareup.retrofit2:converter-gson:$rootProject.retrofit"
     implementation "com.jakewharton.retrofit:retrofit2-rxjava2-adapter:$project.rxJavaAdapter"
     implementation "com.squareup.retrofit2:converter-scalars:$rootProject.retrofit"
+
     // OKHttp
     implementation "com.squareup.okhttp3:okhttp:$rootProject.okhttp"
     implementation "com.squareup.okhttp3:logging-interceptor:$rootProject.okhttp"

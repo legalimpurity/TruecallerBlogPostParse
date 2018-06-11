@@ -35,7 +35,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@{viewModel.t10thCharacterRequestAnswer}"
-                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Headline"
+                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Body1"
                     tools:text="TestOutput"/>
                 <TextView
                     android:layout_width="match_parent"
@@ -46,7 +46,18 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@{viewModel.tevery10thCharacterRequestAnswer}"
-                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Headline"
+                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Body1"
+                    tools:text="TestOutput"/>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/truecallerwordcounterrequest"
+                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Headline"/>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@{viewModel.tWordCounterRequest}"
+                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Body1"
                     tools:text="TestOutput"/>
             </LinearLayout>
         </ScrollView>

@@ -5,6 +5,4 @@ import io.reactivex.Single
 
 interface DataManager : ApiDataHelper
 {
-    fun getBlogPostResponseAsCharArray(year: Int, month: Int, date: Int, title: String): Single<CharArray>
-    fun getBlogPostResponseAsStringList(year: Int, month: Int, date: Int, title: String): Single<List<String>>
 }
