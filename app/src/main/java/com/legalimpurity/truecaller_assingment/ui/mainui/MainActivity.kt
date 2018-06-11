@@ -9,7 +9,7 @@ import com.legalimpurity.truecaller_assingment.databinding.ActivityMainBinding
 import com.legalimpurity.truecaller_assingment.ui.baseui.BaseActivity
 import javax.inject.Inject
 
-class MainActivity : BaseActivity<ActivityMainBinding, MainActivityModel>(), SplashActivityNavigator {
+class MainActivity : BaseActivity<ActivityMainBinding, MainActivityModel>(), MainActivityNavigator {
 
     @Inject
     lateinit var mViewModelFactory: ViewModelProvider.Factory

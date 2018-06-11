@@ -8,8 +8,9 @@ import io.reactivex.Observable
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.observables.GroupedObservable
 import io.reactivex.subjects.ReplaySubject
+import java.util.regex.Pattern
 
-class MainActivityModel(dataManager: DataManager, schedulerProvider: SchedulerProvider, compositeDisposable: CompositeDisposable) : BaseViewModel<SplashActivityNavigator>(dataManager,schedulerProvider,compositeDisposable)
+class MainActivityModel(dataManager: DataManager, schedulerProvider: SchedulerProvider, compositeDisposable: CompositeDisposable) : BaseViewModel<MainActivityNavigator>(dataManager,schedulerProvider,compositeDisposable)
 {
     var t10thCharacterRequestAnswer = ObservableField<String>()
     var tevery10thCharacterRequestAnswer = ObservableField<String>()
@@ -19,10 +20,6 @@ class MainActivityModel(dataManager: DataManager, schedulerProvider: SchedulerPr
 
         val listOfChars = ReplaySubject.create<Char>()
         val apiResponse = getDataManager().getBlogPostResponse(year, month, date, title)
-        val apiResponseAsCharArray = apiResponse
-            .map {
-                it.toCharArray()
-            }
 
         apiResponse
                 .map {
@@ -78,7 +75,7 @@ class MainActivityModel(dataManager: DataManager, schedulerProvider: SchedulerPr
 
         getCompositeDisposable().add(apiResponse
                 .map {
-                    it.split("\n")
+                    it.split(Pattern.compile("\\s+"))
                 }
                 .toObservable()
                 .flatMap {
@@ -108,8 +105,8 @@ class MainActivityModel(dataManager: DataManager, schedulerProvider: SchedulerPr
                     tWordCounterRequest.set(it)
                 },{
                     tWordCounterRequest.set("Some error occurred!")
-                }))
-
-
+                }
+            )
+        )
     }
 }
