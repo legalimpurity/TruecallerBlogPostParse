@@ -18,47 +18,134 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <EditText
+            android:id="@+id/etDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="Date"
+            android:text="@={viewModel.etDate}"
+            android:maxLength="2"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/etMonth"/>
+
+        <EditText
+            android:id="@+id/etMonth"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="Month"
+            android:text="@={viewModel.etMonth}"
+            android:maxLength="2"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/etDate"
+            app:layout_constraintEnd_toStartOf="@id/etYear"/>
+
+        <EditText
+            android:id="@+id/etYear"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:hint="Year"
+            android:text="@={viewModel.etYear}"
+            android:maxLength="4"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/etMonth"/>
+
+        <android.support.v4.widget.ContentLoadingProgressBar
+            android:id="@+id/loading_requests"
+            style="?android:attr/progressBarStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/butGo"
+            android:visibility="@{(viewModel.requestsCount == 0 || viewModel.requestsCount == 1 || viewModel.requestsCount == 2) ? View.VISIBLE : View.GONE}"/>
+
+        <TextView
+            android:id="@+id/status_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toStartOf="@+id/loading_requests"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/butGo"
+            tools:text="Requests Processed : 1"
+            android:text="@{`Requests Processed : ` + viewModel.requestsCount}"
+            android:visibility="@{(viewModel.requestsCount == 0 || viewModel.requestsCount == 1 || viewModel.requestsCount == 2) ? View.VISIBLE : View.GONE}"/>
+
+        <EditText
+            android:id="@+id/etTitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:hint="Title"
+            android:text="@={viewModel.etTitle}"
+            app:layout_constraintTop_toBottomOf="@+id/etDate"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/butGo"/>
+
+        <Button
+            android:id="@+id/butGo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Go"
+            android:onClick="@{() -> viewModel.getWebPage()}"
+            app:layout_constraintTop_toBottomOf="@+id/etDate"
+            app:layout_constraintStart_toEndOf="@+id/etTitle"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:clickable="@{!(viewModel.requestsCount == 0 || viewModel.requestsCount == 1 || viewModel.requestsCount == 2)}"
+            android:enabled="@{!(viewModel.requestsCount == 0 || viewModel.requestsCount == 1 || viewModel.requestsCount == 2)}"/>
+
+
         <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/butGo">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
+
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/truecaller10thcharacterrequest"
                     android:textAppearance="@style/Base.TextAppearance.AppCompat.Headline"/>
+
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@{viewModel.t10thCharacterRequestAnswer}"
                     android:textAppearance="@style/Base.TextAppearance.AppCompat.Body1"
                     tools:text="TestOutput"/>
+
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/truecallerevery10thcharacterrequest"
                     android:textAppearance="@style/Base.TextAppearance.AppCompat.Headline"/>
+
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@{viewModel.tevery10thCharacterRequestAnswer}"
                     android:textAppearance="@style/Base.TextAppearance.AppCompat.Body1"
                     tools:text="TestOutput"/>
+
                 <TextView
+                    android:id="@+id/tWordCounterRequestQuestion"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/truecallerwordcounterrequest"
                     android:textAppearance="@style/Base.TextAppearance.AppCompat.Headline"/>
+
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@{viewModel.tWordCounterRequest}"
                     android:textAppearance="@style/Base.TextAppearance.AppCompat.Body1"
                     tools:text="TestOutput"/>
+
             </LinearLayout>
         </ScrollView>
     </android.support.constraint.ConstraintLayout>

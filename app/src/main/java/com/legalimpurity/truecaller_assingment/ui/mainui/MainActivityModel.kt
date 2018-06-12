@@ -16,10 +16,36 @@ class MainActivityModel(dataManager: DataManager, schedulerProvider: SchedulerPr
     var tevery10thCharacterRequestAnswer = ObservableField<String>()
     var tWordCounterRequest = ObservableField<String>()
 
-    fun getWebPage(year: Int, month: Int, date: Int, title:String) {
+    // Requests Count by default -1, follows requests
+    var requestsCount = ObservableField<Int>()
+
+    var etYear = ObservableField<String>()
+    var etMonth = ObservableField<String>()
+    var etDate = ObservableField<String>()
+    var etTitle = ObservableField<String>()
+
+    init {
+        etYear.set("2018")
+        etMonth.set("1")
+        etDate.set("22")
+        etTitle.set("life-as-an-android-engineer")
+        requestsCount.set(-1)
+    }
+
+    fun getWebPage() {
+        requestsCount.set(0)
+
+        t10thCharacterRequestAnswer.set("")
+        tevery10thCharacterRequestAnswer.set("")
+        tWordCounterRequest.set("")
+
+        val year =etYear.get()
+        val month = etMonth.get()
+        val date = etDate.get()
+        val title = etTitle.get()
 
         val listOfChars = ReplaySubject.create<Char>()
-        val apiResponse = getDataManager().getBlogPostResponse(year, month, date, title)
+        val apiResponse = getDataManager().getBlogPostResponse(year!!, month!!, date!!, title!!)
 
         apiResponse
                 .map {
@@ -44,8 +70,10 @@ class MainActivityModel(dataManager: DataManager, schedulerProvider: SchedulerPr
                 .observeOn(getSchedulerProvider().ui())
                 .subscribe({
                     t10thCharacterRequestAnswer.set(it[0].toString())
+                    requestsCount.set(requestsCount.get()?.plus(1))
                 },{
                     t10thCharacterRequestAnswer.set("Some error occured!")
+                    requestsCount.set(requestsCount.get()?.plus(1))
                 }))
 
         getCompositeDisposable().add(listOf10thChars
@@ -61,13 +89,17 @@ class MainActivityModel(dataManager: DataManager, schedulerProvider: SchedulerPr
                     }
                     sb.toString()
                 }
-
+                // had to be changed from single to observable to get on complete
+                .toObservable()
                 .subscribeOn(getSchedulerProvider().io())
                 .observeOn(getSchedulerProvider().ui())
                 .subscribe({
                     tevery10thCharacterRequestAnswer.set(it)
                 },{
                     tevery10thCharacterRequestAnswer.set("Some error occurred!")
+                    requestsCount.set(requestsCount.get()?.plus(1))
+                },{
+                    requestsCount.set(requestsCount.get()?.plus(1))
                 }))
 
         // Another way we could do this is by using the stream of characters and then creating words by checking for whitespace characters
@@ -99,12 +131,19 @@ class MainActivityModel(dataManager: DataManager, schedulerProvider: SchedulerPr
                     }
                     sb.toString()
                 }
+
+                // had to be changed from single to observable to get on complete
+
+                .toObservable()
                 .subscribeOn(getSchedulerProvider().io())
                 .observeOn(getSchedulerProvider().ui())
                 .subscribe({
                     tWordCounterRequest.set(it)
                 },{
                     tWordCounterRequest.set("Some error occurred!")
+                    requestsCount.set(requestsCount.get()?.plus(1))
+                }, {
+                    requestsCount.set(requestsCount.get()?.plus(1))
                 }
             )
         )

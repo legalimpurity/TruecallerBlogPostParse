@@ -4,5 +4,5 @@ import io.reactivex.Single
 
 interface ApiDataHelper
 {
-    fun getBlogPostResponse(year: Int, month: Int, date: Int, title:String): Single<String>
+    fun getBlogPostResponse(year: String, month: String, date: String, title:String): Single<String>
 }

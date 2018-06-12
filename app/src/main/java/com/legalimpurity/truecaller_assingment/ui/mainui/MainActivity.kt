@@ -22,7 +22,7 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainActivityModel>(), Mai
         super.onCreate(savedInstanceState)
         mMainActivityModel?.setNavigator(this)
         mActivityMainBinding = getViewDataBinding()
-        mMainActivityModel?.getWebPage(2018,1,22,"life-as-an-android-engineer")
+//        mMainActivityModel?.getWebPage(2018,1,22,"life-as-an-android-engineer")
     }
 
     // Functions to be implemented by every Activity
@@ -39,6 +39,8 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainActivityModel>(), Mai
 
     override fun errorOccured(throwable: Throwable) {
 
+    }
+    override fun setNumberOfDoneRequests(testsDone: Int) {
     }
 
 }

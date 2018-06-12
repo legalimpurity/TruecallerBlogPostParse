@@ -13,7 +13,7 @@ class ApiDataHelperImpl @Inject constructor(retrofit: Retrofit): ApiDataHelper
         truecallerService = retrofit.create(TruecallerService::class.java)
     }
 
-    override fun getBlogPostResponse(year: Int, month: Int, date: Int, title:String): Single<String> {
+    override fun getBlogPostResponse(year: String, month: String, date: String, title:String): Single<String> {
         return truecallerService!!.getBlogPostResponse(year,month,date, title)
     }
 }
