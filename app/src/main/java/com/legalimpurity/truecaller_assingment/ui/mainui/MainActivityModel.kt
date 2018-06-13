@@ -108,6 +108,7 @@ class MainActivityModel(dataManager: DataManager, schedulerProvider: SchedulerPr
 
         // Another way we could do this is by using the stream of characters and then creating words by checking for whitespace characters
         // For that the kind of operator I needed was BufferUntil which is not available by default.
+        // If that would have been possible, I would have not used String.split and made it more efficient.
 
         getCompositeDisposable().add(apiResponse
                 .map {
@@ -127,10 +128,11 @@ class MainActivityModel(dataManager: DataManager, schedulerProvider: SchedulerPr
                     }
                     .toObservable()
                 }
-//                .toList()
+//                .toList() // replaced by buffer so that we can start showing resuls right away.
+                // Here we pool the broken string we get to get them to display to the UI. The refresh rate is decided by the user.
                 .buffer(textViewRefreshingFrequency.get()?.toLongOrNull() ?: 1 , TimeUnit.SECONDS)
-//                .buffer(textViewRefreshingFrequency.get() ?: 1 , TimeUnit.SECONDS)
-//                .buffer(textViewRefreshingFrequency.get() ?: 1 , TimeUnit.SECONDS)
+//                .buffer( 1 , TimeUnit.SECONDS)
+                // String builder was used so that a lot of string allocations do not take place. This way only the strings that are supposed to be shown in the UI are created.
                 .map {
                     val sb = StringBuilder()
                     it.forEach{
@@ -138,16 +140,13 @@ class MainActivityModel(dataManager: DataManager, schedulerProvider: SchedulerPr
                     }
                     sb.toString()
                 }
-
-                // had to be changed from single to observable to get on complete
-
-//                .toObservable()
+                .scan{ x,y -> x+y }
                 .subscribeOn(getSchedulerProvider().io())
                 .observeOn(getSchedulerProvider().ui())
                 .subscribe({
-//                    tWordCounterRequest.set(it)
+                    tWordCounterRequest.set(it)
 //                    tWordCounterRequest.set(tWordCounterRequest.get()+it.first+" = "+it.second+"\n")
-                    tWordCounterRequest.set(tWordCounterRequest.get()+it)
+//                    tWordCounterRequest.set(tWordCounterRequest.get()+it)
                 },{
                     tWordCounterRequest.set("Some error occurred!")
                     requestsCount.set(requestsCount.get()?.plus(1))
