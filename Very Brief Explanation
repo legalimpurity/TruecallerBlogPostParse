@@ -1,0 +1,9 @@
+The app follows MVVM architecture. We use Observables and make sure that in no way is the ViewModel aware of the Activity. There are also tests also written to verify the working of the logic.
+
+The part to ‘run 3 requests SIMULTANEOUSLY’ was a bit confusing. The tasks were very similar and doing them together seemed like to the way to go, but separation of concerns was also something I wanted to take care of. I ended up keeping the part common to the tasks together (that means it will only be performed once). Used Rx to the best of my abilities to solve as many problems as I can.
+
+Some decisions were taken keeping in mind that it would lead to an unnecessary run in iteration but was important to be utilised in Rx (Retrofit gave us string which was converted to an CharArray which was then converted to List to be utilised in Rx).
+
+An important feature added yesterday was to add an edit text to set at what interval should the textview’s be updated the partial output. I personally feel that the beauty of Rx can only be expressed if the UI is updated of the progress of the output as well. Initially the output was being delivered right away to the UI thread that was way to much work to be done on UI thread. Next I added Buffer to limit the number of times the update was sent to the UI. Still that was making the UI hang. Next, I decide to do the final concatenation part also of the UI thread. Lastly, I added an Edit Text allowing the user to decide that at what frequency does the user wants the text views to be updated with the latest output (this comes extremely handy for the third request).
+
+The outputs are displayed on TextView’s as that was what the assignment required, though I would have definitely preferred RecyclerView for the last request.
