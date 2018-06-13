@@ -36,11 +36,9 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainActivityModel>(), Mai
     override fun getLayoutId() = R.layout.activity_main
 
     // Navigator Functions
-
+    // navigator not being used.
     override fun errorOccured(throwable: Throwable) {
 
-    }
-    override fun setNumberOfDoneRequests(testsDone: Int) {
     }
 
 }

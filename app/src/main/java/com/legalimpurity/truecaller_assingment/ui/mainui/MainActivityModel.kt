@@ -15,7 +15,7 @@ class MainActivityModel(dataManager: DataManager, schedulerProvider: SchedulerPr
 {
     var t10thCharacterRequestAnswer = ObservableField<String>()
     var tevery10thCharacterRequestAnswer = ObservableField<String>()
-    var tWordCounterRequest = ObservableField<String>()
+    var tWordCounterRequestAnswer = ObservableField<String>()
 
     // Requests Count by default -1, follows requests
     var requestsCount = ObservableField<Int>()
@@ -41,7 +41,7 @@ class MainActivityModel(dataManager: DataManager, schedulerProvider: SchedulerPr
 
         t10thCharacterRequestAnswer.set("")
         tevery10thCharacterRequestAnswer.set("")
-        tWordCounterRequest.set("")
+        tWordCounterRequestAnswer.set("")
 
         val year =etYear.get()
         val month = etMonth.get()
@@ -144,11 +144,11 @@ class MainActivityModel(dataManager: DataManager, schedulerProvider: SchedulerPr
                 .subscribeOn(getSchedulerProvider().io())
                 .observeOn(getSchedulerProvider().ui())
                 .subscribe({
-                    tWordCounterRequest.set(it)
-//                    tWordCounterRequest.set(tWordCounterRequest.get()+it.first+" = "+it.second+"\n")
-//                    tWordCounterRequest.set(tWordCounterRequest.get()+it)
+                    tWordCounterRequestAnswer.set(it)
+//                    tWordCounterRequestAnswer.set(tWordCounterRequestAnswer.get()+it.first+" = "+it.second+"\n")
+//                    tWordCounterRequestAnswer.set(tWordCounterRequestAnswer.get()+it)
                 },{
-                    tWordCounterRequest.set("Some error occurred!")
+                    tWordCounterRequestAnswer.set("Some error occurred!")
                     requestsCount.set(requestsCount.get()?.plus(1))
                 }, {
                     requestsCount.set(requestsCount.get()?.plus(1))
