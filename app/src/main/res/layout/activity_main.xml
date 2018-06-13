@@ -72,6 +72,32 @@
             android:text="@{`Requests Processed : ` + viewModel.requestsCount}"
             android:visibility="@{(viewModel.requestsCount == 0 || viewModel.requestsCount == 1 || viewModel.requestsCount == 2) ? View.VISIBLE : View.GONE}"/>
 
+        <TextView
+            android:id="@+id/refreshRate"
+            style="?android:attr/progressBarStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@{`Text View Refresh Frequency` + viewModel.textViewRefreshingFrequency}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/butGo"
+            tools:visibility="visible"
+            android:visibility="@{!(viewModel.requestsCount == 0 || viewModel.requestsCount == 1 || viewModel.requestsCount == 2) ? View.VISIBLE : View.GONE}"/>
+
+        <SeekBar
+            android:id="@+id/seekBar"
+            style="@style/Widget.AppCompat.SeekBar.Discrete"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:max="3"
+            android:progress="@={viewModel.textViewRefreshingFrequency}"
+            app:layout_constraintEnd_toStartOf="@+id/loading_requests"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/butGo"
+            tools:text="Requests Processed : 1"
+            android:visibility="@{!(viewModel.requestsCount == 0 || viewModel.requestsCount == 1 || viewModel.requestsCount == 2) ? View.VISIBLE : View.GONE}"/>
+
         <EditText
             android:id="@+id/etTitle"
             android:layout_width="0dp"

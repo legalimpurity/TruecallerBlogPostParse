@@ -8,6 +8,7 @@ import io.reactivex.Observable
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.observables.GroupedObservable
 import io.reactivex.subjects.ReplaySubject
+import java.util.concurrent.TimeUnit
 import java.util.regex.Pattern
 
 class MainActivityModel(dataManager: DataManager, schedulerProvider: SchedulerProvider, compositeDisposable: CompositeDisposable) : BaseViewModel<MainActivityNavigator>(dataManager,schedulerProvider,compositeDisposable)
@@ -18,6 +19,8 @@ class MainActivityModel(dataManager: DataManager, schedulerProvider: SchedulerPr
 
     // Requests Count by default -1, follows requests
     var requestsCount = ObservableField<Int>()
+
+    var textViewRefreshingFrequency = ObservableField<String>()
 
     var etYear = ObservableField<String>()
     var etMonth = ObservableField<String>()
@@ -30,6 +33,7 @@ class MainActivityModel(dataManager: DataManager, schedulerProvider: SchedulerPr
         etDate.set("22")
         etTitle.set("life-as-an-android-engineer")
         requestsCount.set(-1)
+        textViewRefreshingFrequency.set("1")
     }
 
     fun getWebPage() {
@@ -121,11 +125,14 @@ class MainActivityModel(dataManager: DataManager, schedulerProvider: SchedulerPr
                     .reduce { t1: Pair<String?, Int>, t2: Pair<String?, Int> ->
                         Pair(t1.first,t1.second+t2.second)
                     }
-                            .toObservable()
+                    .toObservable()
                 }
-                .toList()
+//                .toList()
+                .buffer(textViewRefreshingFrequency.get()?.toLongOrNull() ?: 1 , TimeUnit.SECONDS)
+//                .buffer(textViewRefreshingFrequency.get() ?: 1 , TimeUnit.SECONDS)
+//                .buffer(textViewRefreshingFrequency.get() ?: 1 , TimeUnit.SECONDS)
                 .map {
-                    var sb = StringBuilder()
+                    val sb = StringBuilder()
                     it.forEach{
                         sb.append(it.first+" = "+it.second+"\n")
                     }
@@ -134,11 +141,13 @@ class MainActivityModel(dataManager: DataManager, schedulerProvider: SchedulerPr
 
                 // had to be changed from single to observable to get on complete
 
-                .toObservable()
+//                .toObservable()
                 .subscribeOn(getSchedulerProvider().io())
                 .observeOn(getSchedulerProvider().ui())
                 .subscribe({
-                    tWordCounterRequest.set(it)
+//                    tWordCounterRequest.set(it)
+//                    tWordCounterRequest.set(tWordCounterRequest.get()+it.first+" = "+it.second+"\n")
+                    tWordCounterRequest.set(tWordCounterRequest.get()+it)
                 },{
                     tWordCounterRequest.set("Some error occurred!")
                     requestsCount.set(requestsCount.get()?.plus(1))
